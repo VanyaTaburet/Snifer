@@ -1,0 +1,313 @@
+﻿###############################################################################
+# Visual Studio / C++ / CMake .gitignore (расширенный)
+# Цель: хранить только исходный код и метаданные проектов, исключая артефакты.
+###############################################################################
+
+########################
+# ОС / Общие временные #
+########################
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.stackdump
+
+# macOS (если вдруг откроете там)
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# Общее
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+########################
+# IDE: Visual Studio   #
+########################
+
+# Папка настроек VS
+.vs/
+
+# Пользовательские файлы решений / настроек
+*.suo
+*.user
+*.userosscache
+*.userprefs
+*.VC.db
+*.VC.VC.opendb
+*.vscode/*.code-workspace
+
+# Кеши IntelliSense / Browse
+*.idb
+*.ipch
+ipch/
+*.opendb
+
+# Временный файл состояния решений
+*.sln.docstates
+
+########################
+# Build (Configuration)#
+########################
+
+# Стандартные каталоги конфигураций VS
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+Debug/
+DebugPublic/
+Release/
+RelWithDebInfo/
+MinSizeRel/
+Profile/
+x64/
+x86/
+ARM/
+ARM64/
+[Aa][Rr][Mm]64[Oo]pt/
+[Aa][Rr][Mm][Oo]pt/
+[Aa][Rr][Mm]64[Dd]ebug/
+[Aa][Rr][Mm][Dd]ebug/
+[Aa][Rr][Mm]64[Rr]elease/
+[Aa][Rr][Mm][Rr]elease/
+
+# MSBuild промежуточные
+*.tlog
+*.lastbuildstate
+*.unsuccessfulbuild
+*.cache
+*.log
+*.wrn
+*.err
+
+# Другие промежуточные каталоги / кэши
+x64-Debug/
+x64-Release/
+Win32-Debug/
+Win32-Release/
+out/
+out-build/
+intermediate/
+build*/       # build, build-debug, build_release и т.п. (но ОСТОРОЖНО если есть папка 'build_scripts' — тогда переименуйте)
+_build/
+build-*/
+
+########################
+# CMake                #
+########################
+
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+install_manifest.txt
+compile_commands.json
+CPackConfig.cmake
+CPackSourceConfig.cmake
+
+# Ninja / генераторы
+*.ninja
+.ninja_deps
+.ninja_log
+
+# Предварительно сгенерированные модульные интерфейсы (при использовании C++20 modules)
+*.ifc
+*.pcm
+
+########################
+# Binaries / Artefacts #
+########################
+
+# Исполняемые / библиотеки / объекты
+*.exe
+*.dll
+*.lib
+*.a
+*.la
+*.lo
+*.obj
+*.o
+*.so
+*.so.*
+*.dylib
+*.cmake-build
+
+# PDB / отладочная информация
+*.pdb
+*.ipdb
+*.iobj
+
+# Статический анализ (PCH, инструментальные)
+*.pch
+*.gch
+
+# Линковочные / промежуточные
+*.ilk
+*.exp
+*.rsp
+
+# Профилировщики / трассировка
+*.pgc
+*.pgd
+*.gcda
+*.gcno
+*.gcov
+*.tprof
+*.etl
+
+# К覆盖 (coverage) отчёты, если будут
+*.profraw
+*.profdata
+coverage/
+lcov.info
+
+########################
+# Логи и диагностика   #
+########################
+
+*.log
+*.trace
+*.trc
+*.dmp
+*.mdmp
+
+########################
+# Test / Temp output   #
+########################
+
+test-output/
+Testing/
+*.testlog
+*.unittestlog
+*.coverage
+*.retry
+
+########################
+# Package Managers     #
+########################
+
+# NuGet
+*.nupkg
+# Папки с кэшем зависимостей (если вдруг)
+packages/
+# Отдельные lock-файлы NuGet можно оставить при необходимости; обычно: packages.lock.json
+# Если хотите игнорировать — раскомментируйте:
+# packages.lock.json
+
+# vcpkg buildtrees / installed (оставьте манифест vcpkg.json если есть)
+vcpkg_installed/
+vcpkg/buildtrees/
+vcpkg/packages/
+
+########################
+# Code Analysis / SA   #
+########################
+
+# Static Analysis Reports
+*.sarif
+*.svclog
+
+########################
+# Cache инструментов   #
+########################
+
+# CCache / другие кэши
+ccache/
+.cache/
+*.cache/
+
+########################
+# VS Code (если параллельно)
+########################
+
+.vscode/
+.history/
+
+########################
+# Qt (если вдруг)      #
+########################
+
+*.pro.user
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+qrc_*.cpp
+*.qmlc
+*.jsc
+*.qrc.depends
+*.prl
+
+########################
+# Conan (если используете)
+########################
+
+.conan/
+conanbuildinfo.*
+conaninfo.txt
+
+########################
+# Premake / Generator  #
+########################
+
+*.make
+*.mk
+*.workspace
+*.project
+
+########################
+# Archives / Dumps     #
+########################
+
+*.zip
+*.7z
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.rar
+
+########################
+# Misc                 #
+########################
+
+# Локальные записки / результаты
+notes/
+*.local
+*.secret
+secrets.*
+*.old
+
+# Unity / Unreal (на случай смешанного репо — можно убрать если не нужны)
+[Bb]uilds/
+[Bb]inaries/
+DerivedDataCache/
+
+########################
+# Keep ONLY source and essential project files
+########################
+
+# Разрешено по умолчанию (НЕ игнорим):
+# *.h *.hpp *.hh *.hxx *.inl *.cpp *.c *.cc *.ixx
+# *.sln *.vcxproj *.vcxproj.filters *.vcxproj.user (user обычно игнорим) *.props *.targets
+# CMakeLists.txt *.cmake *.cmake.in
+# README* LICENSE* .gitignore
+
+# Чтобы случайно не проигнорировать важные текстовые файлы, убедитесь что
+# нет перекрывающих правил выше.
+
+###############################################################################
+# Конец файла
+###############################################################################
+
+build/

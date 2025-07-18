@@ -28,25 +28,33 @@ static int find_mac_index(const std::vector<std::pair<std::string, int>>& counts
     return -1;
 }
 
-// Обрабатывает одну строку: при первом триггере RA, SA или TA обновляет двумерный вектор
+// Обрабатывает одну строку: 
 void process_line(const std::string& line,
     std::vector<std::pair<std::string, int>>& countsVec) {
     auto kvList = parse_line(line);
+
     for (const auto& kv : kvList) {
-        // разобьём ключ по '/'
         std::istringstream ks(kv.first);
         std::string part;
+        bool isTrigger = false;  // Флаг: найден ли триггер в этом ключе
+
+        // Проверяем все части ключа через слэш
         while (std::getline(ks, part, '/')) {
             if (part == "RA" || part == "SA" || part == "TA") {
-                const std::string& mac = kv.second;
-                int idx = find_mac_index(countsVec, mac);
-                if (idx >= 0) {
-                    countsVec[idx].second++;
-                }
-                else {
-                    countsVec.emplace_back(mac, 1);
-                }
-                return;  // обработали первый триггер — выходим
+                isTrigger = true;  // Триггер найден в этом ключе
+                break;             // Выходим из цикла по частям, но обрабатываем ключ
+            }
+        }
+
+        // Если в ключе был хотя бы один триггер
+        if (isTrigger) {
+            const std::string& mac = kv.second;
+            int idx = find_mac_index(countsVec, mac);
+            if (idx >= 0) {
+                countsVec[idx].second++;
+            }
+            else {
+                countsVec.emplace_back(mac, 1);
             }
         }
     }
