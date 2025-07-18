@@ -12,4 +12,7 @@ std::vector<std::pair<std::string, std::string>> parse_line(const std::string& l
 void process_line(const std::string& line,
     std::vector<std::pair<std::string, int>>& countsVec);
 
+/// Сортирует pairs<MAC, count> по убыванию count.
+void sort_by_count(std::vector<std::pair<std::string, int>>& v);
+
 #endif // SNIFFER_H

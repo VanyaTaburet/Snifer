@@ -1,9 +1,11 @@
-#include "sniffer.h"
+п»ї#include "sniffer.h"
 #include <sstream>
 #include <vector>
 #include <string>
+#include <algorithm>  // std::sort
 
-// Парсит одну строку лога в пары <ключ, значение>
+
+// РџР°СЂСЃРёС‚ РѕРґРЅСѓ СЃС‚СЂРѕРєСѓ Р»РѕРіР° РІ РїР°СЂС‹ <РєР»СЋС‡, Р·РЅР°С‡РµРЅРёРµ>
 std::vector<std::pair<std::string, std::string>> parse_line(const std::string& line) {
     std::vector<std::pair<std::string, std::string>> kvList;
     std::string token;
@@ -18,7 +20,7 @@ std::vector<std::pair<std::string, std::string>> parse_line(const std::string& l
     return kvList;
 }
 
-// Находит в countsVec пару с первого столбца == mac, возвращает индекс или -1
+// РќР°С…РѕРґРёС‚ РІ countsVec РїР°СЂСѓ СЃ РїРµСЂРІРѕРіРѕ СЃС‚РѕР»Р±С†Р° == mac, РІРѕР·РІСЂР°С‰Р°РµС‚ РёРЅРґРµРєСЃ РёР»Рё -1
 static int find_mac_index(const std::vector<std::pair<std::string, int>>& countsVec,
     const std::string& mac) {
     for (size_t i = 0; i < countsVec.size(); ++i) {
@@ -28,7 +30,7 @@ static int find_mac_index(const std::vector<std::pair<std::string, int>>& counts
     return -1;
 }
 
-// Обрабатывает одну строку: 
+// РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РѕРґРЅСѓ СЃС‚СЂРѕРєСѓ: 
 void process_line(const std::string& line,
     std::vector<std::pair<std::string, int>>& countsVec) {
     auto kvList = parse_line(line);
@@ -36,17 +38,17 @@ void process_line(const std::string& line,
     for (const auto& kv : kvList) {
         std::istringstream ks(kv.first);
         std::string part;
-        bool isTrigger = false;  // Флаг: найден ли триггер в этом ключе
+        bool isTrigger = false;  // Р¤Р»Р°Рі: РЅР°Р№РґРµРЅ Р»Рё С‚СЂРёРіРіРµСЂ РІ СЌС‚РѕРј РєР»СЋС‡Рµ
 
-        // Проверяем все части ключа через слэш
+        // РџСЂРѕРІРµСЂСЏРµРј РІСЃРµ С‡Р°СЃС‚Рё РєР»СЋС‡Р° С‡РµСЂРµР· СЃР»СЌС€
         while (std::getline(ks, part, '/')) {
             if (part == "RA" || part == "SA" || part == "TA") {
-                isTrigger = true;  // Триггер найден в этом ключе
-                break;             // Выходим из цикла по частям, но обрабатываем ключ
+                isTrigger = true;  // РўСЂРёРіРіРµСЂ РЅР°Р№РґРµРЅ РІ СЌС‚РѕРј РєР»СЋС‡Рµ
+                break;             // Р’С‹С…РѕРґРёРј РёР· С†РёРєР»Р° РїРѕ С‡Р°СЃС‚СЏРј, РЅРѕ РѕР±СЂР°Р±Р°С‚С‹РІР°РµРј РєР»СЋС‡
             }
         }
 
-        // Если в ключе был хотя бы один триггер
+        // Р•СЃР»Рё РІ РєР»СЋС‡Рµ Р±С‹Р» С…РѕС‚СЏ Р±С‹ РѕРґРёРЅ С‚СЂРёРіРіРµСЂ
         if (isTrigger) {
             const std::string& mac = kv.second;
             int idx = find_mac_index(countsVec, mac);
@@ -58,4 +60,15 @@ void process_line(const std::string& line,
             }
         }
     }
+}
+
+void sort_by_count(std::vector<std::pair<std::string, int>>& countsVec)
+{
+    std::sort(countsVec.begin(), countsVec.end(),
+        [](const auto& a, const auto& b)
+        {
+            if (a.second != b.second)       // Р±РѕР»СЊС€РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ в†’ СЂР°РЅСЊС€Рµ
+                return a.second > b.second;
+            return a.first < b.first;       // tie-breaker: MAC РїРѕ Р°Р»С„Р°РІРёС‚Сѓ
+        });
 }

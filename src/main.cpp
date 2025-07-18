@@ -23,6 +23,8 @@ int main(int argc, char* argv[]) {
         process_line(line, countsVec);
     }
 
+    sort_by_count(countsVec);          // вызываем сортировку
+
     // Выводим в консоль, отсортировав по убыванию (можно добавить сортировку позже)
     for (auto& p : countsVec) {
         std::cout << p.first << " " << p.second << "\n";
